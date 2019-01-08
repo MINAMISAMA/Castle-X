@@ -45,7 +45,7 @@ public:
     ROS_INFO("%s: Executing, creating fibonacci sequence of order %i with seeds %i, %i", action_name_.c_str(), goal->order, feedback_.sequence[0], feedback_.sequence[1]);
 
     // 开始运行行为
-    for(int i=1; i<=goal->order; i++)
+    for(int i=1; i < goal->order; i++)
     {
       // 检查客户端是否未请求抢占
       if (as_.isPreemptRequested() || !ros::ok())
