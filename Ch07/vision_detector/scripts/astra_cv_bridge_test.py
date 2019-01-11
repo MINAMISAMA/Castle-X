@@ -20,14 +20,12 @@ class image_converter:
         except CvBridgeError as e:
             print e
 
-        # 在opencv的显示窗口中绘制一个圆，作为标记
+        # 在opencv的显示窗口中绘制一个正方形作为标记
         (rows,cols,channels) = cv_image.shape
         if cols > 60 and rows > 60 :
 			cv2.rectangle(cv_image, (20, 20), (100, 100), (0,0,255), 10)
 			font=cv2.FONT_HERSHEY_SIMPLEX
 			cv2.putText(cv_image,'OpenCV',(30, 60), font, 0.5,(255,255,255),2)
-            #font = cv2.FONT_HERSHEY_TRIPLEX
-			#cv2.putText(cv_image, 'opencv' , (10, 500), font, 4, (255, 255, 0), 1,False)
 
         # 显示Opencv格式的图像
         cv2.imshow("Image window", cv_image)
@@ -42,10 +40,10 @@ class image_converter:
 if __name__ == '__main__':
     try:
         # 初始化ros节点
-        rospy.init_node("cv_bridge_test")
-        rospy.loginfo("Starting cv_bridge_test node")
+        rospy.init_node("astra_cv_bridge_test")
+        rospy.loginfo("Starting astra_cv_bridge_test node")
         image_converter()
         rospy.spin()
     except KeyboardInterrupt:
-        print "Shutting down cv_bridge_test node."
+        print "Shutting down astra_cv_bridge_test node."
         cv2.destroyAllWindows()

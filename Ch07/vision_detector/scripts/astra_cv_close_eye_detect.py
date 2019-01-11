@@ -96,11 +96,11 @@ class faceDetector:
 if __name__ == '__main__':
     try:
         # 初始化ros节点
-        rospy.init_node("eyes_detector")
+        rospy.init_node("astra_cv_close_eye_detect")
         faceDetector()
         #rospy.loginfo("Eyes detector is started..")
-        rospy.loginfo("Eyes detector is started.. \n Please subscribe the ROS image.")
+        rospy.loginfo("Astra_cv_close_eye_detect is started.. \n Please subscribe the ROS image.")
         rospy.spin()
     except KeyboardInterrupt:
-        print "Shutting down eyes detector node."
+        print "Shutting down astra_cv_close_eye_detect node."
         cv2.destroyAllWindows()

@@ -3,7 +3,7 @@
     <!-- 启动相机节点  -->
     <node name="libuvc_camera" pkg="libuvc_camera" type="camera_node" />
 
-    <!-- 启动人脸识别节点  -->
+    <!-- 启动人眼识别节点  -->
     <node pkg="vision_detector" name="astra_cv_close_eye_detect" type="astra_cv_close_eye_detect.py" output="screen">
         
         <remap from="input_rgb_image" to="/image_raw" />      
