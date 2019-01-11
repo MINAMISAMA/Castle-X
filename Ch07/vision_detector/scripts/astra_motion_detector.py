@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 import rospy
 import cv2
 import numpy as np
@@ -21,11 +22,11 @@ class motionDetector:
         self.firstFrame = None
         self.text = "Unoccupied"
 
-        # 初始化订阅rgb格式图像数据的订阅者，此处图像topic的话题名可以在launch文件中重映射
+        # 初始化订阅rgb格式图像数据的订阅者
         self.image_sub = rospy.Subscriber("input_rgb_image", Image, self.image_callback, queue_size=1)
 
     def image_callback(self, data):
-        # 使用cv_bridge将ROS的图像数据转换成OpenCV的图像格式
+        # 将ROS的图像数据转换成OpenCV的图像格式
         try:
             cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")     
             frame = np.array(cv_image, dtype=np.uint8)
@@ -36,7 +37,7 @@ class motionDetector:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         gray = cv2.GaussianBlur(gray, (21, 21), 0)
 
-        # 使用两帧图像做比较，检测移动物体的区域
+        # 比较两帧图像，检测移动物体的区域
         if self.firstFrame is None:
             self.firstFrame = gray
             return  
@@ -54,11 +55,11 @@ class motionDetector:
             # 在输出画面上框出识别到的物体
             (x, y, w, h) = cv2.boundingRect(c)
             cv2.rectangle(frame, (x, y), (x + w, y + h), (50, 255, 50), 2)
-            self.text = "Occupied"
+            self.text = "Castle-X"
 
         # 在输出画面上打当前状态和时间戳信息
         cv2.putText(frame, "Status: {}".format(self.text), (10, 20),
-            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (187, 255, 255), 2)
 
         # 将识别后的图像转换成ROS消息并发布
         self.image_pub.publish(self.bridge.cv2_to_imgmsg(frame, "bgr8"))
@@ -70,12 +71,11 @@ class motionDetector:
 if __name__ == '__main__':
     try:
         # 初始化ros节点
-        rospy.init_node("motion_detector")
-        rospy.loginfo("motion_detector node is started...")
-        rospy.loginfo("Please subscribe the ROS image.")
+        rospy.init_node("astra_motion_detector")
+        rospy.loginfo("astra_motion_detector node is started... \n Please subscribe the ROS image.")
         motionDetector()
         rospy.spin()
     except KeyboardInterrupt:
-        print "Shutting down motion detector node."
+        print "Shutting down astra_motion_detector node."
         cv2.destroyAllWindows()
 
